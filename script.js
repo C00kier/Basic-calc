@@ -65,56 +65,9 @@ function buttonNumber(num)
 
 function actions(action)
 {
-    if(state === 1)
-    {
-        switch(operation)
-        {
-            case "+":
-                result += Number(number1) + Number(number2);
-            break;
-            case "-":
-                result += Number(number1) - Number(number2);
-            break;
-            case "*":
-                result += Number(number1) * Number(number2);
-            break;
-            case "/":
-                result += Number(number1) / Number(number2);
-            break;
-        }
-        number1 = "";
-        number2 = "";
-        state = 2;
-        console.log("state 1", result);
-    }
-    else if(state === 2)
-    {
-        switch(operation)
-        {
-            case "+":
-                result += Number(number1);
-            break;
-            case "-":
-                result -= Number(number1);
-            break;
-            case "*":
-                result *= Number(number1);
-            break;
-            case "/":
-                result /= Number(number1);
-            break;
-        }
-        number1 = "";
-        console.log("state 2", result);
-    }
+    stateManagment();
 
     operation = action;
-
-    if(number1 !== "" && (state === 0))
-    {
-        state = 1;
-    }
-
     showResultByID.innerHTML = result;
     stringHolder += " " + action + " ";
     calculationsByID.innerHTML = stringHolder;
@@ -134,5 +87,67 @@ function clear()
 //do napisania na nowo
 function outcome()
 {
+    console.log("nr1", number1, "nr2", number2, "result", result);
+    stateManagment();
     showResultByID.innerHTML = result;
 }
+
+function stateManagment()
+{
+    if(state === 1)
+    {
+        calculationsFor2Numbers();
+        state = 2;
+    }
+    else if(state === 2)
+    {
+        calculationsForMoreNumbers();
+    }
+
+    if(number1 !== "" && (state === 0))
+    {
+        state = 1;
+    }
+}
+
+function calculationsFor2Numbers()
+{
+    switch(operation)
+    {
+        case "+":
+            result += Number(number1) + Number(number2);
+        break;
+        case "-":
+            result += Number(number1) - Number(number2);
+        break;
+        case "*":
+            result += Number(number1) * Number(number2);
+        break;
+        case "/":
+            result += Number(number1) / Number(number2);
+        break;
+    }
+    number1 = "";
+    number2 = "";
+}
+
+function calculationsForMoreNumbers()
+{
+    switch(operation)
+    {
+        case "+":
+            result += Number(number1);
+        break;
+        case "-":
+            result -= Number(number1);
+        break;
+        case "*":
+            result *= Number(number1);
+        break;
+        case "/":
+            result /= Number(number1);
+        break;
+    }
+    number1 = "";
+}
+
