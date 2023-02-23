@@ -85,6 +85,7 @@ function actions(action)
         number1 = "";
         number2 = "";
         state = 2;
+        console.log("state 1", result);
     }
     else if(state === 2)
     {
@@ -104,6 +105,7 @@ function actions(action)
             break;
         }
         number1 = "";
+        console.log("state 2", result);
     }
 
     operation = action;
@@ -122,10 +124,11 @@ function clear()
 {
     stringHolder = "";
     calculationsByID.innerHTML = stringHolder;
-    result = 0;
-    showResultByID.innerHTML = result;
     state = 0;
     operation = "";
+    result = 0;
+    number1 = "";
+    showResultByID.innerHTML = result;
 }
 
 //do napisania na nowo
