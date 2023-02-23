@@ -1,7 +1,9 @@
 let result = 0;
 let stringHolder = "";
 let number1 = "";
-let number2 = 0;
+let number2 = "";
+let operation = "";
+let state = 0;
 
 //tekst
 const showResultByID = document.getElementById("showResult");
@@ -48,31 +50,70 @@ resultByID.addEventListener("click", e => outcome());
 //funkcje przycisków
 function buttonNumber(num)
 {
-    number1 += num;
+    if(state !== 1)
+    {
+        number1 += num;
+    }
+    else
+    {
+        number2 += num;
+    }
+
     stringHolder += num;
     calculationsByID.innerHTML = stringHolder;
 }
 
 function actions(action)
 {
-    switch(action)
+    if(state === 1)
     {
-        case "+":
-            result += Number(number1);
-        break;
-        case "-":
-            result -= Number(number1);
-        break;
-        case "*":
-            result *= Number(number1);
-        break;
-        case "/":
-            result /= Number(number1);
-        break;
+        switch(operation)
+        {
+            case "+":
+                result += Number(number1) + Number(number2);
+            break;
+            case "-":
+                result += Number(number1) - Number(number2);
+            break;
+            case "*":
+                result += Number(number1) * Number(number2);
+            break;
+            case "/":
+                result += Number(number1) / Number(number2);
+            break;
+        }
+        number1 = "";
+        number2 = "";
+        state = 2;
     }
-    number1 = "";
+    else if(state === 2)
+    {
+        switch(operation)
+        {
+            case "+":
+                result += Number(number1);
+            break;
+            case "-":
+                result -= Number(number1);
+            break;
+            case "*":
+                result *= Number(number1);
+            break;
+            case "/":
+                result /= Number(number1);
+            break;
+        }
+        number1 = "";
+    }
+
+    operation = action;
+
+    if(number1 !== "" && (state === 0))
+    {
+        state = 1;
+    }
+
     showResultByID.innerHTML = result;
-    
     stringHolder += " " + action + " ";
     calculationsByID.innerHTML = stringHolder;
 }
