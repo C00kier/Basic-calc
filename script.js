@@ -124,6 +124,8 @@ function clear()
     calculationsByID.innerHTML = stringHolder;
     result = 0;
     showResultByID.innerHTML = result;
+    state = 0;
+    operation = "";
 }
 
 //do napisania na nowo
