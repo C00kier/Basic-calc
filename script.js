@@ -27,6 +27,7 @@ const divisionByID = document.getElementById("divisionButton");
 const clearByID = document.getElementById("clearButton");
 const resultByID = document.getElementById("resultButton");
 const deleteLastByID = document.getElementById("deleteButton");
+const deleteWholeNumberByID = document.getElementById("clearWholeNumber");
 
 //kliknięcie przycisku
 button1ByID.addEventListener("click", e => buttonNumber("1"));
@@ -46,10 +47,10 @@ divisionByID.addEventListener("click", e => actions("/"));
 clearByID.addEventListener("click", e => clear());
 resultByID.addEventListener("click", e => outcome());
 deleteLastByID.addEventListener("click", e => deleteLast());
+deleteWholeNumberByID.addEventListener("click", e => clearNumber());
 
 
-
-//funkcje przycisków
+//Number buttons
 function buttonNumber(num)
 {
     if(state !== 1)
@@ -65,6 +66,7 @@ function buttonNumber(num)
     calculationsByID.innerHTML = stringHolder;
 }
 
+//Operator buttons
 function actions(action)
 {
     stateManagment();
@@ -75,6 +77,7 @@ function actions(action)
     calculationsByID.innerHTML = stringHolder;
 }
 
+//C Button
 function clear()
 {
     stringHolder = "";
@@ -152,7 +155,7 @@ function calculationsForMoreNumbers()
     number1 = "";
 }
 
-
+//DEL Button
 function deleteLast()
 {
     if(state !== 1)
@@ -170,6 +173,28 @@ function deleteLast()
             stringHolder = stringHolder.slice(0,-1);
         }
         number2 = number2.slice(0,-1);
+    }
+    calculationsByID.innerHTML = stringHolder;
+}
+
+//CE Button
+function clearNumber()
+{
+    if(state !== 1)
+    {
+        if(number1.length > 0) 
+        {
+            stringHolder = stringHolder.slice(0,- number1.length);
+        }       
+        number1 = "";
+    }
+    else
+    {
+        if(number2.length > 0)
+        {
+            stringHolder = stringHolder.slice(0,- number2.length);
+        }
+        number2 = "";
     }
     calculationsByID.innerHTML = stringHolder;
 }
