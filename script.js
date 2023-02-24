@@ -26,6 +26,7 @@ const multiplyByID = document.getElementById("multiplyButton");
 const divisionByID = document.getElementById("divisionButton");
 const clearByID = document.getElementById("clearButton");
 const resultByID = document.getElementById("resultButton");
+const deleteLastByID = document.getElementById("deleteButton");
 
 //kliknięcie przycisku
 button1ByID.addEventListener("click", e => buttonNumber("1"));
@@ -44,6 +45,7 @@ multiplyByID.addEventListener("click", e => actions("*"));
 divisionByID.addEventListener("click", e => actions("/"));
 clearByID.addEventListener("click", e => clear());
 resultByID.addEventListener("click", e => outcome());
+deleteLastByID.addEventListener("click", e => deleteLast());
 
 
 
@@ -81,14 +83,13 @@ function clear()
     operation = "";
     result = 0;
     number1 = "";
+    number2 = "";
     showResultByID.innerHTML = result;
 }
 
 //do napisania na nowo
 function outcome()
 {
-    console.log("nr1", number1, "nr2", number2, "result", result);
-    stateManagment();
     showResultByID.innerHTML = result;
 }
 
@@ -151,3 +152,24 @@ function calculationsForMoreNumbers()
     number1 = "";
 }
 
+
+function deleteLast()
+{
+    if(state !== 1)
+    {
+        if(number1.length > 0) 
+        {
+            stringHolder = stringHolder.slice(0,-1);
+        }
+        number1 = number1.slice(0,-1);
+    }
+    else
+    {
+        if(number2.length > 0)
+        {
+            stringHolder = stringHolder.slice(0,-1);
+        }
+        number2 = number2.slice(0,-1);
+    }
+    calculationsByID.innerHTML = stringHolder;
+}
