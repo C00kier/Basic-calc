@@ -27,7 +27,10 @@ const divisionByID = document.getElementById("divisionButton");
 const clearByID = document.getElementById("clearButton");
 const resultByID = document.getElementById("resultButton");
 const deleteLastByID = document.getElementById("deleteButton");
-const deleteWholeNumberByID = document.getElementById("clearWholeNumber");
+const deleteNumberByID = document.getElementById("clearWholeNumber");
+const sqrtByID = document.getElementById("sqrtButton");
+const plusMinusByID = document.getElementById("plusMinusButton");
+const commaByID = document.getElementById("commaButton");
 
 //kliknięcie przycisku
 button1ByID.addEventListener("click", e => buttonNumber("1"));
@@ -47,7 +50,12 @@ divisionByID.addEventListener("click", e => actions("/"));
 clearByID.addEventListener("click", e => clear());
 resultByID.addEventListener("click", e => outcome());
 deleteLastByID.addEventListener("click", e => deleteLast());
-deleteWholeNumberByID.addEventListener("click", e => clearNumber());
+deleteNumberByID.addEventListener("click", e => clearNumber());
+sqrtByID.addEventListener("click", e => calcSqrt());
+sqrtByID.addEventListener("click", e => calcSqrt());
+plusMinusByID.addEventListener("click", e => plusMinus());
+commaByID.addEventListener("click", e => makeComma());
+
 
 
 //Number buttons
@@ -81,16 +89,16 @@ function actions(action)
 function clear()
 {
     stringHolder = "";
-    calculationsByID.innerHTML = stringHolder;
     state = 0;
     operation = "";
     result = 0;
     number1 = "";
     number2 = "";
     showResultByID.innerHTML = result;
+    calculationsByID.innerHTML = stringHolder;
 }
 
-//do napisania na nowo
+//do napisania na nowo 
 function outcome()
 {
     showResultByID.innerHTML = result;
@@ -198,3 +206,47 @@ function clearNumber()
     }
     calculationsByID.innerHTML = stringHolder;
 }
+
+//Plus minus button
+function plusMinus()
+{
+    result = -result;
+    showResultByID.innerHTML = result;
+}
+
+//Comma button
+function makeComma()
+{
+    if(state !== 1)
+    {
+        number1 += ".";
+    }
+    else
+    {
+        number2 += ".";
+    }
+    stringHolder += ".";
+    calculationsByID.innerHTML = stringHolder;
+}
+
+//Sqrt button
+function calcSqrt()
+{
+    //pokombinuj numberami a nie resultem?
+
+    // if(state !== 1)
+    // {
+    //     calculationsForMoreNumbers();       
+    // }
+    // else
+    // {
+    //     calculationsFor2Numbers();
+    // }
+    // stringHolder += ` √(${result}) `;
+    // calculationsByID.innerHTML = stringHolder;
+    // result = Math.sqrt(result);
+    // showResultByID.innerHTML = result;
+
+}
+
+
