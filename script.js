@@ -4,6 +4,7 @@ let number1 = "";
 let number2 = "";
 let operation = "";
 let state = 0;
+let isOperationDone = true;
 
 //tekst
 const showResultByID = document.getElementById("showResult");
@@ -70,6 +71,7 @@ function buttonNumber(num)
         number2 += num;
     }
 
+    isOperationDone = false;
     stringHolder += num;
     calculationsByID.innerHTML = stringHolder;
 }
@@ -81,7 +83,17 @@ function actions(action)
 
     operation = action;
     showResultByID.innerHTML = result;
-    stringHolder += " " + action + " ";
+    
+    if(isOperationDone === false)
+    {
+        stringHolder += " " + operation + " ";
+        isOperationDone = true;
+    }
+
+    if(operation !== stringHolder[stringHolder.length - 2])
+    {
+        stringHolder = stringHolder.substring(0, stringHolder.length - 2) + operation + " ";
+    }
     calculationsByID.innerHTML = stringHolder;
 }
 
@@ -110,10 +122,13 @@ function stateManagment()
     {
         calculationsFor2Numbers();
         state = 2;
+        number1 = "";
+        number2 = "";
     }
     else if(state === 2)
     {
         calculationsForMoreNumbers();
+        number1 = "";
     }
 
     if(number1 !== "" && (state === 0))
@@ -139,8 +154,6 @@ function calculationsFor2Numbers()
             result += Number(number1) / Number(number2);
         break;
     }
-    number1 = "";
-    number2 = "";
 }
 
 function calculationsForMoreNumbers()
@@ -160,7 +173,6 @@ function calculationsForMoreNumbers()
             result /= Number(number1);
         break;
     }
-    number1 = "";
 }
 
 //DEL Button
