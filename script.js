@@ -1,7 +1,7 @@
 let result = 0;
-let stringHolder = "";
-let number1 = "";
-let operation = "";
+let operationsString = "";
+let numberInput = "";
+let currentOperation = "";
 let isOperatorPlaced = true;
 let isFirstOperation = true;
 let canReplaceOperator = false;
@@ -61,10 +61,10 @@ commaByID.addEventListener("click", e => makeComma());
 //Number buttons
 function buttonNumber(num)
 {
-    number1 += num;
+    numberInput += num;
     isOperatorPlaced = false;
-    stringHolder += num;
-    calculationsByID.innerHTML = stringHolder;
+    operationsString += num;
+    calculationsByID.innerHTML = operationsString;
 }
 
 //Operator buttons
@@ -72,7 +72,7 @@ function actions(action)
 {
     if(isFirstOperation === true)
     {
-        result = Number(number1);
+        result = Number(numberInput);
         isFirstOperation = false;
     }
     else
@@ -80,37 +80,43 @@ function actions(action)
         calculations();
     }
 
-    operation = action;
+    currentOperation = action;
     showResultByID.innerHTML = result;
+
+    if(numberInput === "")
+    {
+        isOperatorPlaced = true;
+    }
 
     if(isOperatorPlaced === false)
     {
-        stringHolder += " " + operation + " ";
+        operationsString += " " + currentOperation + " ";
         isOperatorPlaced = true;
         canReplaceOperator = true;
     }
 
-    if((operation !== stringHolder[stringHolder.length - 2]) && canReplaceOperator)
+    if((currentOperation !== operationsString[operationsString.length - 2]) && canReplaceOperator)
     {
-        stringHolder = stringHolder.substring(0, stringHolder.length - 2) + operation + " ";
+        operationsString = operationsString.substring(0, operationsString.length - 2) + currentOperation + " ";
     }
-    number1 = "";
-    calculationsByID.innerHTML = stringHolder;
+    
+    numberInput = "";
+    calculationsByID.innerHTML = operationsString;
 }
 
 //C Button
 function clear()
 {
     result = 0;
-    stringHolder = "";
-    number1 = "";
-    operation = "";
+    operationsString = "";
+    numberInput = "";
+    currentOperation = "";
     isOperatorPlaced = true;
     isFirstOperation = true;
     canReplaceOperator = false;
     
     showResultByID.innerHTML = result;
-    calculationsByID.innerHTML = stringHolder;
+    calculationsByID.innerHTML = operationsString;
 }
 
 //Result Button 
@@ -118,7 +124,7 @@ function outcome()
 {
     if(isFirstOperation === true)
     {
-        result = Number(number1);
+        result = Number(numberInput);
         isFirstOperation = false;
     }
     else
@@ -126,24 +132,24 @@ function outcome()
         calculations();
     }
     showResultByID.innerHTML = result;
-    number1 = "";
+    numberInput = "";
 }
 
 function calculations()
 {
-    switch(operation)
+    switch(currentOperation)
     {
         case "+":
-            result += Number(number1);
+            result += Number(numberInput);
         break;
         case "-":
-            result -= Number(number1);
+            result -= Number(numberInput);
         break;
         case "*":
-            result *= Number(number1);
+            result *= Number(numberInput);
         break;
         case "/":
-            result /= Number(number1);
+            result /= Number(numberInput);
         break;
     }
 }
@@ -151,23 +157,23 @@ function calculations()
 //DEL Button
 function deleteLast()
 {
-    if(number1.length > 0) 
+    if(numberInput.length > 0) 
     {
-        stringHolder = stringHolder.slice(0,-1);
+        operationsString = operationsString.slice(0,-1);
     }
-    number1 = number1.slice(0,-1);
-    calculationsByID.innerHTML = stringHolder;
+    numberInput = numberInput.slice(0,-1);
+    calculationsByID.innerHTML = operationsString;
 }
 
 //CE Button
 function clearNumber()
 {
-    if(number1.length > 0) 
+    if(numberInput.length > 0) 
     {
-        stringHolder = stringHolder.slice(0,- number1.length);
+        operationsString = operationsString.slice(0,- numberInput.length);
     }       
-    number1 = ""; 
-    calculationsByID.innerHTML = stringHolder;
+    numberInput = ""; 
+    calculationsByID.innerHTML = operationsString;
 }
 
 //Plus minus button
@@ -180,9 +186,9 @@ function plusMinus()
 //Comma button
 function makeComma()
 {
-    number1 += ".";
-    stringHolder += ".";
-    calculationsByID.innerHTML = stringHolder;
+    numberInput += ".";
+    operationsString += ".";
+    calculationsByID.innerHTML = operationsString;
 }
 
 //Sqrt button
