@@ -53,7 +53,6 @@ resultByID.addEventListener("click", e => outcome());
 deleteLastByID.addEventListener("click", e => deleteLast());
 deleteNumberByID.addEventListener("click", e => clearNumber());
 sqrtByID.addEventListener("click", e => calcSqrt());
-sqrtByID.addEventListener("click", e => calcSqrt());
 plusMinusByID.addEventListener("click", e => plusMinus());
 commaByID.addEventListener("click", e => makeComma());
 
@@ -114,10 +113,20 @@ function clear()
     calculationsByID.innerHTML = stringHolder;
 }
 
-//do napisania na nowo 
+//Result Button 
 function outcome()
 {
+    if(isFirstOperation === true)
+    {
+        result = Number(number1);
+        isFirstOperation = false;
+    }
+    else
+    {
+        calculations();
+    }
     showResultByID.innerHTML = result;
+    number1 = "";
 }
 
 function calculations()
