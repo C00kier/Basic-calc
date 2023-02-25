@@ -1,10 +1,10 @@
 let result = 0;
 let stringHolder = "";
 let number1 = "";
-let number2 = "";
 let operation = "";
-let state = 0;
-let isOperationDone = true;
+let isOperatorPlaced = true;
+let isFirstOperation = true;
+let canReplaceOperator = false;
 
 //tekst
 const showResultByID = document.getElementById("showResult");
@@ -62,16 +62,8 @@ commaByID.addEventListener("click", e => makeComma());
 //Number buttons
 function buttonNumber(num)
 {
-    if(state !== 1)
-    {
-        number1 += num;
-    }
-    else
-    {
-        number2 += num;
-    }
-
-    isOperationDone = false;
+    number1 += num;
+    isOperatorPlaced = false;
     stringHolder += num;
     calculationsByID.innerHTML = stringHolder;
 }
@@ -79,33 +71,45 @@ function buttonNumber(num)
 //Operator buttons
 function actions(action)
 {
-    stateManagment();
+    if(isFirstOperation === true)
+    {
+        result = Number(number1);
+        isFirstOperation = false;
+    }
+    else
+    {
+        calculations();
+    }
 
     operation = action;
     showResultByID.innerHTML = result;
-    
-    if(isOperationDone === false)
+
+    if(isOperatorPlaced === false)
     {
         stringHolder += " " + operation + " ";
-        isOperationDone = true;
+        isOperatorPlaced = true;
+        canReplaceOperator = true;
     }
 
-    if(operation !== stringHolder[stringHolder.length - 2])
+    if((operation !== stringHolder[stringHolder.length - 2]) && canReplaceOperator)
     {
         stringHolder = stringHolder.substring(0, stringHolder.length - 2) + operation + " ";
     }
+    number1 = "";
     calculationsByID.innerHTML = stringHolder;
 }
 
 //C Button
 function clear()
 {
-    stringHolder = "";
-    state = 0;
-    operation = "";
     result = 0;
+    stringHolder = "";
     number1 = "";
-    number2 = "";
+    operation = "";
+    isOperatorPlaced = true;
+    isFirstOperation = true;
+    canReplaceOperator = false;
+    
     showResultByID.innerHTML = result;
     calculationsByID.innerHTML = stringHolder;
 }
@@ -116,47 +120,7 @@ function outcome()
     showResultByID.innerHTML = result;
 }
 
-function stateManagment()
-{
-    if(state === 1)
-    {
-        calculationsFor2Numbers();
-        state = 2;
-        number1 = "";
-        number2 = "";
-    }
-    else if(state === 2)
-    {
-        calculationsForMoreNumbers();
-        number1 = "";
-    }
-
-    if(number1 !== "" && (state === 0))
-    {
-        state = 1;
-    }
-}
-
-function calculationsFor2Numbers()
-{
-    switch(operation)
-    {
-        case "+":
-            result += Number(number1) + Number(number2);
-        break;
-        case "-":
-            result += Number(number1) - Number(number2);
-        break;
-        case "*":
-            result += Number(number1) * Number(number2);
-        break;
-        case "/":
-            result += Number(number1) / Number(number2);
-        break;
-    }
-}
-
-function calculationsForMoreNumbers()
+function calculations()
 {
     switch(operation)
     {
@@ -178,44 +142,22 @@ function calculationsForMoreNumbers()
 //DEL Button
 function deleteLast()
 {
-    if(state !== 1)
+    if(number1.length > 0) 
     {
-        if(number1.length > 0) 
-        {
-            stringHolder = stringHolder.slice(0,-1);
-        }
-        number1 = number1.slice(0,-1);
+        stringHolder = stringHolder.slice(0,-1);
     }
-    else
-    {
-        if(number2.length > 0)
-        {
-            stringHolder = stringHolder.slice(0,-1);
-        }
-        number2 = number2.slice(0,-1);
-    }
+    number1 = number1.slice(0,-1);
     calculationsByID.innerHTML = stringHolder;
 }
 
 //CE Button
 function clearNumber()
 {
-    if(state !== 1)
+    if(number1.length > 0) 
     {
-        if(number1.length > 0) 
-        {
-            stringHolder = stringHolder.slice(0,- number1.length);
-        }       
-        number1 = "";
-    }
-    else
-    {
-        if(number2.length > 0)
-        {
-            stringHolder = stringHolder.slice(0,- number2.length);
-        }
-        number2 = "";
-    }
+        stringHolder = stringHolder.slice(0,- number1.length);
+    }       
+    number1 = ""; 
     calculationsByID.innerHTML = stringHolder;
 }
 
@@ -229,14 +171,7 @@ function plusMinus()
 //Comma button
 function makeComma()
 {
-    if(state !== 1)
-    {
-        number1 += ".";
-    }
-    else
-    {
-        number2 += ".";
-    }
+    number1 += ".";
     stringHolder += ".";
     calculationsByID.innerHTML = stringHolder;
 }
@@ -244,20 +179,6 @@ function makeComma()
 //Sqrt button
 function calcSqrt()
 {
-    //pokombinuj numberami a nie resultem?
-
-    // if(state !== 1)
-    // {
-    //     calculationsForMoreNumbers();       
-    // }
-    // else
-    // {
-    //     calculationsFor2Numbers();
-    // }
-    // stringHolder += ` √(${result}) `;
-    // calculationsByID.innerHTML = stringHolder;
-    // result = Math.sqrt(result);
-    // showResultByID.innerHTML = result;
 
 }
 
