@@ -6,6 +6,7 @@ let isOperatorPlaced = true;
 let isFirstOperation = true;
 let canReplaceOperator = false;
 
+
 //tekst
 const showResultByID = document.getElementById("showResult");
 const calculationsByID = document.getElementById("previousCalculations");
@@ -99,7 +100,7 @@ function actions(action)
     {
         operationsString = operationsString.substring(0, operationsString.length - 2) + currentOperation + " ";
     }
-    
+
     numberInput = "";
     calculationsByID.innerHTML = operationsString;
 }
@@ -186,9 +187,22 @@ function plusMinus()
 //Comma button
 function makeComma()
 {
-    numberInput += ".";
-    operationsString += ".";
-    calculationsByID.innerHTML = operationsString;
+    let isDotInNumber = false;
+
+    for(const char of numberInput)
+    {
+        if(char === ".")
+        {
+            isDotInNumber = true;
+        }
+    }
+
+    if(isDotInNumber === false)
+    {
+        numberInput += ".";
+        operationsString += ".";
+        calculationsByID.innerHTML = operationsString;
+    }
 }
 
 //Sqrt button
