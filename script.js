@@ -5,7 +5,7 @@ let currentOperation = "";
 let isOperatorPlaced = true;
 let isFirstOperation = true;
 let canReplaceOperator = false;
-
+let isOutcomeFunction = false;
 
 //tekst
 const showResultByID = document.getElementById("showResult");
@@ -63,13 +63,24 @@ commaByID.addEventListener("click", e => makeComma());
 function buttonNumber(num)
 {
     numberInput += num;
-    isOperatorPlaced = false;
     operationsString += num;
     calculationsByID.innerHTML = operationsString;
 }
 
-//Operator buttons
+//Operator buttons + result button
 function actions(action)
+{
+    calculations();  
+    roundTo6Numbers();
+
+    currentOperation = action;
+    operators();
+
+    numberInput = "";
+    calculationsByID.innerHTML = operationsString;
+}
+
+function calculations()
 {
     if(isFirstOperation === true)
     {
@@ -78,15 +89,55 @@ function actions(action)
     }
     else
     {
-        calculations();
+        switch(currentOperation)
+        {
+            case "+":
+                result += Number(numberInput);
+            break;
+            case "-":
+                result -= Number(numberInput);
+            break;
+            case "*":
+                result *= Number(numberInput);
+            break;
+            case "/":
+                result /= Number(numberInput);
+            break;
+        }
     }
+}
 
-    currentOperation = action;
-    showResultByID.innerHTML = result;
+function roundTo6Numbers()
+{
+    let isDotInResult = false;
+    for(const char of result.toString())
+    {      
+        if(char === ".")
+        {
+            const afterDot = result.toString().split(".");
+    
+            if(afterDot[1].length > 6)
+            {              
+                showResultByID.innerHTML = result.toFixed(6);
+            }
+            isDotInResult = true;
+        }
+        else if(isDotInResult === false)
+        {
+            showResultByID.innerHTML = result;
+        }
+    }  
+}
 
+function operators()
+{
     if(numberInput === "")
     {
         isOperatorPlaced = true;
+    }
+    else
+    {
+        isOperatorPlaced = false;
     }
 
     if(isOperatorPlaced === false)
@@ -95,14 +146,22 @@ function actions(action)
         isOperatorPlaced = true;
         canReplaceOperator = true;
     }
-
-    if((currentOperation !== operationsString[operationsString.length - 2]) && canReplaceOperator)
+    
+    if((currentOperation !== operationsString[operationsString.length - 2]) && canReplaceOperator && isOutcomeFunction === false)
     {
         operationsString = operationsString.substring(0, operationsString.length - 2) + currentOperation + " ";
     }
+}
 
+function outcome()
+{
+    calculations();  
+    roundTo6Numbers();
+    isOutcomeFunction = true;
+    operationsString += " ";
+    operators();
+    isOutcomeFunction = false;
     numberInput = "";
-    calculationsByID.innerHTML = operationsString;
 }
 
 //C Button
@@ -115,44 +174,10 @@ function clear()
     isOperatorPlaced = true;
     isFirstOperation = true;
     canReplaceOperator = false;
+    isOutcomeFunction = false;
     
     showResultByID.innerHTML = result;
     calculationsByID.innerHTML = operationsString;
-}
-
-//Result Button 
-function outcome()
-{
-    if(isFirstOperation === true)
-    {
-        result = Number(numberInput);
-        isFirstOperation = false;
-    }
-    else
-    {
-        calculations();
-    }
-    showResultByID.innerHTML = result;
-    numberInput = "";
-}
-
-function calculations()
-{
-    switch(currentOperation)
-    {
-        case "+":
-            result += Number(numberInput);
-        break;
-        case "-":
-            result -= Number(numberInput);
-        break;
-        case "*":
-            result *= Number(numberInput);
-        break;
-        case "/":
-            result /= Number(numberInput);
-        break;
-    }
 }
 
 //DEL Button
